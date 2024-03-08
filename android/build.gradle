@@ -63,4 +63,5 @@ dependencies {
     implementation "br.com.stone:stone-sdk-posandroid-sunmi:$stone_sdk_version"
     implementation "br.com.stone:stone-sdk-posandroid-ingenico:$stone_sdk_version"
     implementation "br.com.stone:stone-sdk-posandroid-gertec:$stone_sdk_version"
+    implementation "br.com.stone:stone-sdk-posandroid-positivo:$stone_sdk_version"
 }
