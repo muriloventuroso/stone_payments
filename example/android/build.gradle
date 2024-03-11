@@ -1,14 +1,7 @@
 buildscript {
     ext {
-        kotlin_version = '1.6.10'
-        stone_sdk_version = '4.3.11'
-
-        localProp = new Properties()
-        fileName = 'local.properties'
-        if (project.rootProject.file(fileName).exists()) {
-            localProp.load(new FileInputStream(rootProject.file(fileName)))
-        }
-        packageCloudReadToken = localProp["packageCloudReadToken"]
+        kotlin_version = '1.9.0'
+       
     }
     repositories {
         google()
@@ -16,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,7 +17,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenCentral()
     }
 }
 
@@ -34,6 +26,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
