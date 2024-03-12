@@ -83,13 +83,13 @@ enum StatusTransactionEnum {
 
   const StatusTransactionEnum(this.value);
 
-  static String fromName(String name) {
+  static StatusTransactionEnum fromName(String name) {
     var listValues = StatusTransactionEnum.values.where((e) => e.name == name);
 
     if (listValues.isEmpty) {
-      return name;
+      return UNKNOWN;
     } else {
-      return listValues.first.value;
+      return listValues.first;
     }
   }
 }

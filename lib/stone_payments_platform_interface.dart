@@ -1,4 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:stone_payments/enums/status_transaction_enum.dart';
 import 'package:stone_payments/enums/type_owner_print_enum.dart';
 import 'package:stone_payments/enums/type_transaction_enum.dart';
 import 'package:stone_payments/models/item_print_model.dart';
@@ -26,7 +27,7 @@ abstract class StonePaymentsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Stream<String> get onMessage;
+  Stream<StatusTransactionEnum> get onMessage;
 
   Future<String?> payment({
     required double value,

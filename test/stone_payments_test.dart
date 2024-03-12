@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:stone_payments/enums/item_print_type_enum.dart';
+import 'package:stone_payments/enums/status_transaction_enum.dart';
 import 'package:stone_payments/enums/type_owner_print_enum.dart';
 import 'package:stone_payments/enums/type_transaction_enum.dart';
 import 'package:stone_payments/models/item_print_model.dart';
@@ -21,7 +22,8 @@ class MockStonePaymentsPlatform
   }
 
   @override
-  Stream<String> get onMessage => Stream.value('Message');
+  Stream<StatusTransactionEnum> get onMessage =>
+      Stream.value(StatusTransactionEnum.UNKNOWN);
 
   @override
   Future<String?> printFile(String imgBase64) {
@@ -169,8 +171,8 @@ void main() {
     });
 
     test('onMessageListener should return StreamSubscription', () {
-      StreamSubscription<String> Function(
-        ValueChanged<String>?, {
+      StreamSubscription<StatusTransactionEnum> Function(
+        ValueChanged<StatusTransactionEnum>?, {
         bool? cancelOnError,
         VoidCallback? onDone,
         Function? onError,
@@ -180,11 +182,11 @@ void main() {
           result,
           isA<
               StreamSubscription<String> Function(
-            ValueChanged<String>?, {
-            bool? cancelOnError,
-            VoidCallback? onDone,
-            Function? onError,
-          })>());
+                ValueChanged<String>?, {
+                bool? cancelOnError,
+                VoidCallback? onDone,
+                Function? onError,
+              })>());
     });
   });
 }

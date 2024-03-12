@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:stone_payments/enums/status_transaction_enum.dart';
 import 'package:stone_payments/enums/type_owner_print_enum.dart';
 
 import 'enums/type_transaction_enum.dart';
@@ -100,8 +101,8 @@ class StonePayments {
   /// Retorna:
   ///
   /// * Uma função que retorna um [StreamSubscription<String>] para escutar as mensagens da plataforma da Stone.
-  StreamSubscription<String> Function(
-    ValueChanged<String>?, {
+  StreamSubscription<StatusTransactionEnum> Function(
+    ValueChanged<StatusTransactionEnum>?, {
     bool? cancelOnError,
     VoidCallback? onDone,
     Function? onError,
