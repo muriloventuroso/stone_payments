@@ -10,7 +10,6 @@ import dev.ltag.stone_payments.Result
 import dev.ltag.stone_payments.StonePaymentsPlugin
 import dev.ltag.stone_payments.Transaction
 import io.flutter.plugin.common.MethodChannel
-import com.beust.klaxon.*
 import stone.application.enums.*
 import stone.application.interfaces.StoneActionCallback
 import stone.application.interfaces.StoneCallbackInterface
@@ -170,6 +169,6 @@ class PaymentUsecase(
             message.subMerchantCategoryCode,
             message.subMerchantAddress,
         )
-        return Klaxon().toJsonString(tr)
+        return tr.toJson()
     }
 }

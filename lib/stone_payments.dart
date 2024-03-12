@@ -109,11 +109,12 @@ class StonePayments {
   }) get onMessageListener => StonePaymentsPlatform.instance.onMessage.listen;
 
   StreamSubscription Function(
-      ValueChanged<dynamic>?, {
-      bool? cancelOnError,
-      VoidCallback? onDone,
-      Function? onError,
-      }) get onTransactionListener => StonePaymentsPlatform.instance.onTransaction.listen;
+    ValueChanged<String>?, {
+    bool? cancelOnError,
+    VoidCallback? onDone,
+    Function? onError,
+  }) get onTransactionListener =>
+      StonePaymentsPlatform.instance.onTransaction.listen;
 
   /// Imprime o comprovante de pagamento.
   ///

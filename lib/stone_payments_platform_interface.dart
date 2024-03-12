@@ -29,7 +29,7 @@ abstract class StonePaymentsPlatform extends PlatformInterface {
 
   Stream<StatusTransactionEnum> get onMessage;
 
-  Stream get onTransaction;
+  Stream<String> get onTransaction;
 
   Future<String?> payment({
     required double value,

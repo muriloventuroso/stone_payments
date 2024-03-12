@@ -40,7 +40,10 @@ class _MyAppState extends State<MyApp> {
         text = message.value;
       });
     });
-
+    stonePaymentsPlugin.onTransactionListener((transaction) {
+      print("transacao");
+      print(json.decode(transaction));
+    });
     super.initState();
   }
 
@@ -67,6 +70,7 @@ class _MyAppState extends State<MyApp> {
                     await stonePaymentsPlugin.payment(
                       value: 5,
                       typeTransaction: TypeTransactionEnum.debit,
+                      printReceipt: true,
                     );
                   } catch (e) {
                     listen.pause();

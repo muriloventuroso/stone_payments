@@ -26,6 +26,9 @@ class MockStonePaymentsPlatform
       Stream.value(StatusTransactionEnum.UNKNOWN);
 
   @override
+  Stream<String> get onTransaction => Stream.value("");
+
+  @override
   Future<String?> printFile(String imgBase64) {
     return Future.value('Printed Image');
   }
