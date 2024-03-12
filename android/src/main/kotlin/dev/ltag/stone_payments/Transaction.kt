@@ -1,9 +1,5 @@
 package dev.ltag.stone_payments
 
-import com.beust.klaxon.*
-
-        private val klaxon = Klaxon()
-
 data class Transaction (
     val acquirerTransactionKey: String?,
     val initiatorTransactionKey: String?,
@@ -25,10 +21,4 @@ data class Transaction (
     val subMerchantCategoryCode: String?,
     val subMerchantAddress: String?,
     
-) {
-    public fun toJson() = klaxon.toJsonString(this)
-
-    companion object {
-        public fun fromJson(json: String) = klaxon.parse<Transaction>(json)
-    }
-}
+)
