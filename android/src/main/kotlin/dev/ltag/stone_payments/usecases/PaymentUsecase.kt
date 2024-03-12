@@ -8,6 +8,7 @@ import br.com.stone.posandroid.providers.PosPrintReceiptProvider
 import br.com.stone.posandroid.providers.PosTransactionProvider
 import dev.ltag.stone_payments.Result
 import dev.ltag.stone_payments.StonePaymentsPlugin
+import dev.ltag.stone_payments.Transaction
 import io.flutter.plugin.common.MethodChannel
 import stone.application.enums.*
 import stone.application.interfaces.StoneActionCallback
@@ -53,8 +54,7 @@ class PaymentUsecase(
                     when (val status = provider.transactionStatus) {
                         TransactionStatusEnum.APPROVED -> {
 
-
-                            Log.d("RESULT", "SUCESSO")
+                            sendResult(transactionObject)
                             if (print == true) {
                                 val posPrintReceiptProvider =
                                     PosPrintReceiptProvider(
@@ -68,6 +68,7 @@ class PaymentUsecase(
                                     override fun onSuccess() {
 
                                         Log.d("SUCCESS", transactionObject.toString())
+                                        
                                     }
 
                                     override fun onError() {
@@ -134,5 +135,40 @@ class PaymentUsecase(
             )
             channel.invokeMethod("message", message)
         }
+    }
+
+    private fun sendResult(message: TransactionObject) {
+        Handler(Looper.getMainLooper()).post {
+            val channel = MethodChannel(
+                StonePaymentsPlugin.flutterBinaryMessenger!!,
+                "stone_payments",
+            )
+            channel.invokeMethod("transaction", transactionToJson(message))
+        }
+    }
+
+    private fun transactionToJson(message: TransactionObject) : String {
+        var tr = Transaction(
+            message.acquirerTransactionKey,
+            message.initiatorTransactionKey,
+            message.amount,
+            message.typeOfTransaction.name,
+            message.instalmentTransaction.name,
+            message.instalmentType.name,
+            message.cardHolderNumber,
+            message.cardBrandName,
+            message.cardHolderName,
+            message.authorizationCode,
+            message.transactionStatus.name,
+            message.date,
+            message.shortName,
+            message.userModel.toString(),
+            message.pinpadUsed,
+            message.balance,
+            message.isCapture,
+            message.subMerchantCategoryCode,
+            message.subMerchantAddress,
+        )
+        return tr.toJson()
     }
 }

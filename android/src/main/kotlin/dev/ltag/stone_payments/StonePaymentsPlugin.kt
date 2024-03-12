@@ -12,13 +12,14 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import stone.database.transaction.TransactionObject
 import io.flutter.plugin.common.MethodChannel.Result as Res
+import stone.database.transaction.TransactionObject
 
 /** StonePaymentsPlugin */
 class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
     private lateinit var channel: MethodChannel
     var transactionObject = TransactionObject()
+    
     var context: Context = this;
 
     companion object {
