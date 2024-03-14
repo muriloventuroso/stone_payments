@@ -30,8 +30,8 @@ class StonePayments {
   }) {
     assert(value > 0, 'O valor do pagamento deve ser maior que zero.');
     assert(
-      installment > 0 && installment < 13,
-      'O número de parcelas deve ser maior que zero e menor que 13.',
+      installment > 0 && installment < 36,
+      'O número de parcelas deve ser maior que zero e menor que 36.',
     );
 
     return StonePaymentsPlatform.instance.payment(
