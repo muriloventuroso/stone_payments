@@ -15,12 +15,11 @@ class MethodChannelStonePayments extends StonePaymentsPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('stone_payments');
 
-  final _paymentController =
-      StreamController<StatusTransactionEnum>.broadcast();
+  final _paymentController = StreamController<StatusTransaction>.broadcast();
   final _transactionController = StreamController<String>.broadcast();
 
   @override
-  Stream<StatusTransactionEnum> get onMessage => _paymentController.stream;
+  Stream<StatusTransaction> get onMessage => _paymentController.stream;
 
   @override
   Stream<String> get onTransaction => _transactionController.stream;
@@ -29,8 +28,7 @@ class MethodChannelStonePayments extends StonePaymentsPlatform {
     methodChannel.setMethodCallHandler((call) async {
       switch (call.method) {
         case 'message':
-          _paymentController
-              .add(StatusTransactionEnum.fromName(call.arguments));
+          _paymentController.add(StatusTransaction(call.arguments));
           break;
         case 'transaction':
           _transactionController.add(call.arguments);

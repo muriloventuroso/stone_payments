@@ -101,8 +101,8 @@ class StonePayments {
   /// Retorna:
   ///
   /// * Uma função que retorna um [StreamSubscription<String>] para escutar as mensagens da plataforma da Stone.
-  StreamSubscription<StatusTransactionEnum> Function(
-    ValueChanged<StatusTransactionEnum>?, {
+  StreamSubscription<StatusTransaction> Function(
+    ValueChanged<StatusTransaction>?, {
     bool? cancelOnError,
     VoidCallback? onDone,
     Function? onError,

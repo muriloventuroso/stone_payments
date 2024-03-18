@@ -27,7 +27,7 @@ abstract class StonePaymentsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Stream<StatusTransactionEnum> get onMessage;
+  Stream<StatusTransaction> get onMessage;
 
   Stream<String> get onTransaction;
 

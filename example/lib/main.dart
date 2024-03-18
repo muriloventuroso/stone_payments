@@ -31,13 +31,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final stonePaymentsPlugin = StonePayments();
   String text = 'Running';
-  late StreamSubscription<StatusTransactionEnum> listen;
+  late StreamSubscription<StatusTransaction> listen;
 
   @override
   void initState() {
     listen = stonePaymentsPlugin.onMessageListener((message) {
       setState(() {
-        text = message.value;
+        text = message.name;
       });
     });
     stonePaymentsPlugin.onTransactionListener((transaction) {
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
                   }
                   try {
                     await stonePaymentsPlugin.payment(
-                      value: 5,
+                      value: 0.51,
                       typeTransaction: TypeTransactionEnum.debit,
                       printReceipt: true,
                     );

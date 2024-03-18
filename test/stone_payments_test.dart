@@ -22,8 +22,8 @@ class MockStonePaymentsPlatform
   }
 
   @override
-  Stream<StatusTransactionEnum> get onMessage =>
-      Stream.value(StatusTransactionEnum.UNKNOWN);
+  Stream<StatusTransaction> get onMessage =>
+      Stream.value(const StatusTransaction("UNKNOWN"));
 
   @override
   Stream<String> get onTransaction => Stream.value("");
@@ -174,8 +174,8 @@ void main() {
     });
 
     test('onMessageListener should return StreamSubscription', () {
-      StreamSubscription<StatusTransactionEnum> Function(
-        ValueChanged<StatusTransactionEnum>?, {
+      StreamSubscription<StatusTransaction> Function(
+        ValueChanged<StatusTransaction>?, {
         bool? cancelOnError,
         VoidCallback? onDone,
         Function? onError,
