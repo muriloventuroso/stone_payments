@@ -47,7 +47,7 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                     ) { resp ->
                         when (resp) {
                             is Result.Success<Boolean> -> result.success(
-                                "Ativado"
+                                resp.data.toString()
                             )
                             else -> result.error("Error", resp.toString(), resp.toString())
                         }
@@ -66,7 +66,7 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                     ) { resp ->
                         when (resp) {
                             is Result.Success<Boolean> -> result.success(
-                                "Pagamento Finalizado"
+                                resp.data.toString()
                             )
                             else -> result.error("Error", resp.toString(), resp.toString())
                         }
@@ -82,7 +82,7 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                     ) { resp ->
                         when (resp) {
                             is Result.Success<Boolean> -> result.success(
-                                "Impresso"
+                                resp.data.toString()
                             )
                             else -> result.error("Error", resp.toString(), resp.toString())
                         }
@@ -98,7 +98,7 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                     ) { resp ->
                         when (resp) {
                             is Result.Success<Boolean> -> result.success(
-                                "Impresso"
+                                resp.data.toString()
                             )
                             else -> result.error("Error", resp.toString(), resp.toString())
                         }
@@ -114,7 +114,7 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                     ) { resp ->
                         when (resp) {
                             is Result.Success<Boolean> -> result.success(
-                                "Via Impressa"
+                                resp.data.toString()
                             )
                             else -> result.error("Error", resp.toString(), resp.toString())
                         }
