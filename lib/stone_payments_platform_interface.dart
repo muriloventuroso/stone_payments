@@ -40,6 +40,13 @@ abstract class StonePaymentsPlatform extends PlatformInterface {
     throw UnimplementedError('payment() has not been implemented.');
   }
 
+  Future<String?> cancel({
+    required String transactionId,
+    bool? printReceipt,
+  }) {
+    throw UnimplementedError('cancel() has not been implemented.');
+  }
+
   Future<String?> activateStone({
     required String appName,
     required String stoneCode,

@@ -44,6 +44,14 @@ class MockStonePaymentsPlatform
   }
 
   @override
+  Future<String?> cancel({
+    required String transactionId,
+    bool? printReceipt,
+  }) {
+    return Future.value('true');
+  }
+
+  @override
   Future<String?> printReceipt(TypeOwnerPrintEnum type) {
     return Future.value('Printed Receipt');
   }

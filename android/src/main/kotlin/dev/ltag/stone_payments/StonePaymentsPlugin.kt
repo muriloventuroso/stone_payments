@@ -15,6 +15,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result as Res
 import stone.database.transaction.TransactionObject
 
+
 /** StonePaymentsPlugin */
 class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
     private lateinit var channel: MethodChannel
@@ -123,18 +124,21 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                     result.error("UNAVAILABLE", "Cannot Activate", e.toString())
                 }
             }
-//          "cancel-payment" -> {
-//              try {
-//                  payment!!.cancel { resp ->
-//                      when (resp) {
-//                          is Result.Success<*> -> result.success(resp.data.toString())
-//                          else -> result.error("Error", resp.toString(), resp.toString())
-//                      }
-//                  }
-//              } catch (e: Exception) {
-//                  result.error("UNAVAILABLE", "Cannot cancel", e.toString())
-//              }
-//          }
+         "cancel-payment" -> {
+             try {
+                 paymentUsecase!!.cancel(
+                    call.argument("transactionId")!!,
+                    call.argument("printReceipt"),
+                ) { resp ->
+                     when (resp) {
+                         is Result.Success<*> -> result.success(resp.data.toString())
+                         else -> result.error("Error", resp.toString(), resp.toString())
+                     }
+                 }
+             } catch (e: Exception) {
+                 result.error("UNAVAILABLE", "Cannot cancel", e.toString())
+             }
+         }
             else -> {
                 result.notImplemented()
             }

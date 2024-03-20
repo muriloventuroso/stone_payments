@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   final stonePaymentsPlugin = StonePayments();
   String text = 'Running';
   late StreamSubscription<StatusTransaction> listen;
+  String transactionStored = "";
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _MyAppState extends State<MyApp> {
     stonePaymentsPlugin.onTransactionListener((transaction) {
       print("transacao");
       print(json.decode(transaction));
+      transactionStored = json.decode(transaction)["initiatorTransactionKey"];
     });
     super.initState();
   }
@@ -68,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                   }
                   try {
                     await stonePaymentsPlugin.payment(
-                      value: 0.51,
+                      value: 5,
                       typeTransaction: TypeTransactionEnum.debit,
                       printReceipt: true,
                     );
@@ -80,6 +82,24 @@ class _MyAppState extends State<MyApp> {
                   }
                 },
                 child: const Text('Comprar R\$5,00'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (listen.isPaused) {
+                    listen.resume();
+                  }
+                  print(transactionStored);
+                  try {
+                    await stonePaymentsPlugin.cancel(
+                        transactionId: transactionStored);
+                  } catch (e) {
+                    listen.pause();
+                    setState(() {
+                      text = "Falha no pagamento";
+                    });
+                  }
+                },
+                child: const Text('Cancel'),
               ),
               Image.asset('assets/flutter5786.png'),
               ElevatedButton(

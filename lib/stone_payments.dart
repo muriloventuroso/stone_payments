@@ -42,6 +42,18 @@ class StonePayments {
     );
   }
 
+  Future<String?> cancel({
+    required String transactionId,
+    bool? printReceipt,
+  }) {
+    assert(transactionId != "", 'A transação não pode ser vazia');
+
+    return StonePaymentsPlatform.instance.cancel(
+      transactionId: transactionId,
+      printReceipt: printReceipt,
+    );
+  }
+
   /// Ativação do SDK da Stone Payments.
   ///
   /// Parâmetros:
