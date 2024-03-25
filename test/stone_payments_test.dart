@@ -17,7 +17,9 @@ class MockStonePaymentsPlatform
     implements StonePaymentsPlatform {
   @override
   Future<String?> activateStone(
-      {required String appName, required String stoneCode}) {
+      {required String appName,
+      required String stoneCode,
+      required List<String> stoneKeys}) {
     return Future.value('Activated');
   }
 
@@ -27,6 +29,9 @@ class MockStonePaymentsPlatform
 
   @override
   Stream<String> get onTransaction => Stream.value("");
+
+  @override
+  Stream<String> get onQRCode => Stream.value("");
 
   @override
   Future<String?> printFile(String imgBase64) {

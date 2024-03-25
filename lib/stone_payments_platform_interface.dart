@@ -31,6 +31,8 @@ abstract class StonePaymentsPlatform extends PlatformInterface {
 
   Stream<String> get onTransaction;
 
+  Stream<String> get onQRCode;
+
   Future<String?> payment({
     required double value,
     required TypeTransactionEnum typeTransaction,
@@ -50,6 +52,7 @@ abstract class StonePaymentsPlatform extends PlatformInterface {
   Future<String?> activateStone({
     required String appName,
     required String stoneCode,
+    required List<String> stoneKeys,
   }) {
     throw UnimplementedError('activateStone() has not been implemented.');
   }

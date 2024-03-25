@@ -44,7 +44,8 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                 try {
                     activateUsecase!!.doActivate(
                         call.argument("appName")!!,
-                        call.argument("stoneCode")!!
+                        call.argument("stoneCode")!!,
+                        call.argument("stoneKeys")!!,
                     ) { resp ->
                         when (resp) {
                             is Result.Success<Boolean> -> result.success(

@@ -14,9 +14,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final stonePaymentsPlugin = StonePayments();
   await stonePaymentsPlugin.activateStone(
-    appName: 'My App',
-    stoneCode: '12345678',
-  );
+      appName: 'My App',
+      stoneCode: '12345678',
+      stoneKeys: [
+        "e49da9d6-79dc-4316-957a-b63d0a7b21a8",
+        "6947bd9d-2cff-4ee7-b302-a3ed642b20f5"
+      ]);
 
   runApp(const MyApp());
 }
@@ -33,6 +36,7 @@ class _MyAppState extends State<MyApp> {
   String text = 'Running';
   late StreamSubscription<StatusTransaction> listen;
   String transactionStored = "";
+  String qrcode = "";
 
   @override
   void initState() {
@@ -42,11 +46,19 @@ class _MyAppState extends State<MyApp> {
       });
     });
     stonePaymentsPlugin.onTransactionListener((transaction) {
-      print("transacao");
-      print(json.decode(transaction));
       transactionStored = json.decode(transaction)["initiatorTransactionKey"];
     });
+
+    stonePaymentsPlugin.onQRCodeListener((qrcode) {
+      setState(() {
+        this.qrcode = qrcode;
+      });
+    });
     super.initState();
+  }
+
+  Image imageFromBase64String(String base64String) {
+    return Image.memory(base64.decode(base64String.split(',').last));
   }
 
   @override
@@ -88,6 +100,26 @@ class _MyAppState extends State<MyApp> {
                   if (listen.isPaused) {
                     listen.resume();
                   }
+                  try {
+                    await stonePaymentsPlugin.payment(
+                      value: 5,
+                      typeTransaction: TypeTransactionEnum.pix,
+                      printReceipt: true,
+                    );
+                  } catch (e) {
+                    listen.pause();
+                    setState(() {
+                      text = "Falha no pagamento";
+                    });
+                  }
+                },
+                child: const Text('Comprar no Pix'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (listen.isPaused) {
+                    listen.resume();
+                  }
                   print(transactionStored);
                   try {
                     await stonePaymentsPlugin.cancel(
@@ -101,7 +133,9 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: const Text('Cancel'),
               ),
-              Image.asset('assets/flutter5786.png'),
+              qrcode == ""
+                  ? Image.asset('assets/flutter5786.png')
+                  : imageFromBase64String(qrcode),
               ElevatedButton(
                 onPressed: () async {
                   try {

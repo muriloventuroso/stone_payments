@@ -8,14 +8,26 @@ import stone.application.interfaces.StoneCallbackInterface
 import stone.providers.ActiveApplicationProvider
 import stone.user.UserModel
 import stone.utils.Stone
+import stone.utils.keys.StoneKeyType
 import java.lang.Exception
 
 class ActivateUsecase(
     private val context: Context,
 ) {
-    fun doActivate(appName: String, stoneCode: String, callback: (Result<Boolean>) -> Unit) {
+    fun doActivate(appName: String, stoneCode: String, stoneKeys: List<String>, callback: (Result<Boolean>) -> Unit) {
         Stone.setAppName(appName);
-        val userList: List<UserModel>? = StoneStart.init(context)
+        
+        if (stoneKeys.size != 0 && stoneKeys.size != 2) {
+            callback(Result.Error(Exception("Chaves inválidas")))
+        }
+
+        var stoneKeysHashed: HashMap<StoneKeyType, String> = HashMap<StoneKeyType, String>()
+        if(stoneKeys.size == 2){
+            stoneKeysHashed.put(StoneKeyType.QRCODE_AUTHORIZATION, stoneKeys[0]);
+            stoneKeysHashed.put(StoneKeyType.QRCODE_PROVIDERID, stoneKeys[1]);
+        }
+        
+        val userList: List<UserModel>? = StoneStart.init(context, stoneKeysHashed)
 
         if (userList == null) {
             val activeApplicationProvider = ActiveApplicationProvider(context)

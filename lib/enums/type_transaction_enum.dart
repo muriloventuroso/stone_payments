@@ -4,9 +4,11 @@
 /// The value is used as a flag to define the type of transaction
 /// 1 = Credit
 /// 0 = Debit
+/// 2 = Pix
 enum TypeTransactionEnum {
   credit(1),
-  debit(0);
+  debit(0),
+  pix(2);
 
   final int value;
 

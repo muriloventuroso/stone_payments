@@ -67,10 +67,12 @@ class StonePayments {
   Future<String?> activateStone({
     required String appName,
     required String stoneCode,
+    List<String> stoneKeys = const [],
   }) {
     return StonePaymentsPlatform.instance.activateStone(
       appName: appName,
       stoneCode: stoneCode,
+      stoneKeys: stoneKeys,
     );
   }
 
@@ -120,6 +122,18 @@ class StonePayments {
     Function? onError,
   }) get onMessageListener => StonePaymentsPlatform.instance.onMessage.listen;
 
+  /// Retorna um [StreamSubscription] que escuta as mensagens da plataforma da Stone.
+  ///
+  /// Parâmetros:
+  ///
+  /// * `onMessage` - Função de retorno para tratar as mensagens da plataforma da Stone.
+  /// * `cancelOnError` (optional) - Se definido como true, o [StreamSubscription] será cancelado em caso de erro.
+  /// * `onDone` (optional) - Função de retorno para lidar com a conclusão da transmissão.
+  /// * `onError` (optional) - Função de retorno para lidar com erros no stream.
+  ///
+  /// Retorna:
+  ///
+  /// * Uma função que retorna um [StreamSubscription<String>] para escutar as mensagens da plataforma da Stone.
   StreamSubscription Function(
     ValueChanged<String>?, {
     bool? cancelOnError,
@@ -127,6 +141,25 @@ class StonePayments {
     Function? onError,
   }) get onTransactionListener =>
       StonePaymentsPlatform.instance.onTransaction.listen;
+
+  /// Retorna um [StreamSubscription] que escuta as mensagens da plataforma da Stone.
+  ///
+  /// Parâmetros:
+  ///
+  /// * `onMessage` - Função de retorno para tratar as mensagens da plataforma da Stone.
+  /// * `cancelOnError` (optional) - Se definido como true, o [StreamSubscription] será cancelado em caso de erro.
+  /// * `onDone` (optional) - Função de retorno para lidar com a conclusão da transmissão.
+  /// * `onError` (optional) - Função de retorno para lidar com erros no stream.
+  ///
+  /// Retorna:
+  ///
+  /// * Uma função que retorna um [StreamSubscription<String>] para escutar as mensagens da plataforma da Stone.
+  StreamSubscription Function(
+    ValueChanged<String>?, {
+    bool? cancelOnError,
+    VoidCallback? onDone,
+    Function? onError,
+  }) get onQRCodeListener => StonePaymentsPlatform.instance.onQRCode.listen;
 
   /// Imprime o comprovante de pagamento.
   ///

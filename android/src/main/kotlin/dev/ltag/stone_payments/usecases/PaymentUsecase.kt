@@ -4,6 +4,9 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.graphics.Bitmap
+import java.io.ByteArrayOutputStream
+import android.util.Base64
 import br.com.stone.posandroid.providers.PosPrintReceiptProvider
 import br.com.stone.posandroid.providers.PosTransactionProvider
 import stone.providers.CancellationProvider;
@@ -38,7 +41,7 @@ class PaymentUsecase(
             transactionObject.instalmentTransaction =
                 InstalmentTransactionEnum.getAt(installment - 1);
             transactionObject.typeOfTransaction =
-                if (type == 1) TypeOfTransactionEnum.CREDIT else TypeOfTransactionEnum.DEBIT;
+                if (type == 1) TypeOfTransactionEnum.CREDIT else if (type == 2) TypeOfTransactionEnum.PIX else TypeOfTransactionEnum.DEBIT;
             transactionObject.isCapture = true;
             val newValue: Int = (value * 100).toInt();
             transactionObject.amount = newValue.toString();
@@ -115,7 +118,12 @@ class PaymentUsecase(
                 }
 
                 override fun onStatusChanged(p0: Action?) {
+                    
+                    if (p0 == Action.TRANSACTION_WAITING_QRCODE_SCAN) {
+                        sendAQRCode(transactionObject.getQRCode())
+                    }
                     sendAMessage(p0?.name!!)
+                    
                 }
             })
 
@@ -220,6 +228,23 @@ class PaymentUsecase(
             )
             channel.invokeMethod("transaction", transactionToJson(message))
         }
+    }
+
+    private fun sendAQRCode(message: Bitmap) {
+        Handler(Looper.getMainLooper()).post {
+            val channel = MethodChannel(
+                StonePaymentsPlugin.flutterBinaryMessenger!!,
+                "stone_payments",
+            )
+            channel.invokeMethod("qrcode", BitMapToString(message))
+        }
+    }
+
+    fun BitMapToString(bitmap: Bitmap): String {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val b = baos.toByteArray()
+        return Base64.encodeToString(b, Base64.DEFAULT)
     }
 
     private fun transactionToJson(message: TransactionObject) : String {

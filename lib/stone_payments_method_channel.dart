@@ -16,6 +16,7 @@ class MethodChannelStonePayments extends StonePaymentsPlatform {
   final methodChannel = const MethodChannel('stone_payments');
 
   final _paymentController = StreamController<StatusTransaction>.broadcast();
+  final _qrcodeController = StreamController<String>.broadcast();
   final _transactionController = StreamController<String>.broadcast();
 
   @override
@@ -23,6 +24,9 @@ class MethodChannelStonePayments extends StonePaymentsPlatform {
 
   @override
   Stream<String> get onTransaction => _transactionController.stream;
+
+  @override
+  Stream<String> get onQRCode => _qrcodeController.stream;
 
   MethodChannelStonePayments() {
     methodChannel.setMethodCallHandler((call) async {
@@ -32,6 +36,9 @@ class MethodChannelStonePayments extends StonePaymentsPlatform {
           break;
         case 'transaction':
           _transactionController.add(call.arguments);
+          break;
+        case 'qrcode':
+          _qrcodeController.add(call.arguments.replaceAll("\n", ""));
           break;
         default:
           _paymentController.add(call.arguments);
@@ -80,12 +87,14 @@ class MethodChannelStonePayments extends StonePaymentsPlatform {
   Future<String?> activateStone({
     required String appName,
     required String stoneCode,
+    List<String> stoneKeys = const [],
   }) async {
     final result = await methodChannel.invokeMethod<String>(
       'activateStone',
       <String, dynamic>{
         'appName': appName,
         'stoneCode': stoneCode,
+        'stoneKeys': stoneKeys,
       },
     );
 
