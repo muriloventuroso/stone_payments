@@ -71,12 +71,6 @@ class PaymentUsecase(
                                 posPrintReceiptProvider.connectionCallback = object :
                                     StoneCallbackInterface {
 
-                                    override fun onSuccess() {
-
-                                        Log.d("SUCCESS", transactionObject.toString())
-                                        
-                                    }
-
                                     override fun onError() {
                                         val e = "Erro ao imprimir"
                                         Log.d("ERRORPRINT", transactionObject.toString())
