@@ -55,11 +55,9 @@ class PaymentUsecase(
             provider.setConnectionCallback(object : StoneActionCallback {
 
                 override fun onSuccess() {
-
+                    sendResult(transactionObject)
                     when (val status = provider.transactionStatus) {
                         TransactionStatusEnum.APPROVED -> {
-
-                            sendResult(transactionObject)
                             if (print == true) {
                                 val posPrintReceiptProvider =
                                     PosPrintReceiptProvider(
