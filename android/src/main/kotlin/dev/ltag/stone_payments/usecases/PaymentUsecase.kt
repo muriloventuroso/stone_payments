@@ -25,6 +25,7 @@ class PaymentUsecase(
     private val stonePayments: StonePaymentsPlugin,
 ) {
     private val context = stonePayments.context;
+    
 
     fun doPayment(
         value: Double,
@@ -46,11 +47,13 @@ class PaymentUsecase(
             val newValue: Int = (value * 100).toInt();
             transactionObject.amount = newValue.toString();
 
-            val provider = PosTransactionProvider(
+            stonePayments.providerPosTransaction = PosTransactionProvider(
                 context,
                 transactionObject,
                 Stone.getUserModel(0),
             )
+
+            var provider = stonePayments.providerPosTransaction!!
 
             provider.setConnectionCallback(object : StoneActionCallback {
 
@@ -103,7 +106,7 @@ class PaymentUsecase(
                             sendAMessage(message ?: status.name)
                         }
                     }
-
+                    stonePayments.providerPosTransaction = null
                 }
 
                 override fun onError() {
@@ -113,6 +116,7 @@ class PaymentUsecase(
                     sendAMessage(provider.transactionStatus?.name ?: "ERROR")
 
                     callback(Result.Error(Exception("ERROR")));
+                    stonePayments.providerPosTransaction = null
                 }
 
                 override fun onStatusChanged(p0: Action?) {
@@ -133,6 +137,21 @@ class PaymentUsecase(
             callback(Result.Error(e));
         }
 
+    }
+
+    fun abortPayment(callback: (Result<Boolean>) -> Unit) {
+        try {
+            if (stonePayments.providerPosTransaction == null) {
+                callback(Result.Success(false))
+                return
+            }
+            val ret = stonePayments.providerPosTransaction?.abortPayment()
+            callback(Result.Success(true))
+
+        } catch (e: Exception) {
+            Log.d("ERROR", e.toString())
+            callback(Result.Error(e));
+        }
     }
 
     fun cancel(
@@ -259,6 +278,10 @@ class PaymentUsecase(
             message.authorizationCode,
             message.transactionStatus.name,
             message.date,
+            message.time,
+            message.entryMode.toString(),
+            message.aid,
+            message.arcq,
             message.shortName,
             message.userModel.toString(),
             message.pinpadUsed,

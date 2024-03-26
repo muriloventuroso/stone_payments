@@ -45,7 +45,12 @@ class MockStonePaymentsPlatform
     int installment = 1,
     bool? printReceipt,
   }) {
-    return Future.value('Paied');
+    return Future.value('true');
+  }
+
+  @override
+  Future<String?> abortPayment() {
+    return Future.value('true');
   }
 
   @override

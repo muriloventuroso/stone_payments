@@ -42,6 +42,10 @@ class StonePayments {
     );
   }
 
+  Future<String?> abortPayment() {
+    return StonePaymentsPlatform.instance.abortPayment();
+  }
+
   Future<String?> cancel({
     required String transactionId,
     bool? printReceipt,

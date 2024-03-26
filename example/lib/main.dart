@@ -120,6 +120,22 @@ class _MyAppState extends State<MyApp> {
                   if (listen.isPaused) {
                     listen.resume();
                   }
+                  try {
+                    await stonePaymentsPlugin.abortPayment();
+                  } catch (e) {
+                    listen.pause();
+                    setState(() {
+                      text = "Falha no pagamento";
+                    });
+                  }
+                },
+                child: const Text('Abort'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (listen.isPaused) {
+                    listen.resume();
+                  }
                   print(transactionStored);
                   try {
                     await stonePaymentsPlugin.cancel(
@@ -133,9 +149,7 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: const Text('Cancel'),
               ),
-              qrcode == ""
-                  ? Image.asset('assets/flutter5786.png')
-                  : imageFromBase64String(qrcode),
+              if (qrcode != "") imageFromBase64String(qrcode),
               ElevatedButton(
                 onPressed: () async {
                   try {

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull
 import dev.ltag.stone_payments.usecases.ActivateUsecase
 import dev.ltag.stone_payments.usecases.PaymentUsecase
 import dev.ltag.stone_payments.usecases.PrinterUsecase
+import br.com.stone.posandroid.providers.PosTransactionProvider
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.BinaryMessenger
@@ -20,6 +21,7 @@ import stone.database.transaction.TransactionObject
 class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
     private lateinit var channel: MethodChannel
     var transactionObject = TransactionObject()
+    var providerPosTransaction: PosTransactionProvider? = null;
     
     var context: Context = this;
 
@@ -74,7 +76,21 @@ class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
                         }
                     }
                 } catch (e: Exception) {
-                    result.error("UNAVAILABLE", "Cannot Activate", e.toString())
+                    result.error("UNAVAILABLE", "Cannot Pay", e.toString())
+                }
+            }
+            "abortPayment" -> {
+                try {
+                    paymentUsecase!!.abortPayment() { resp ->
+                        when (resp) {
+                            is Result.Success<Boolean> -> result.success(
+                                resp.data.toString()
+                            )
+                            else -> result.error("Error", resp.toString(), resp.toString())
+                        }
+                    }
+                } catch (e: Exception) {
+                    result.error("UNAVAILABLE", "Cannot Abort", e.toString())
                 }
             }
             "printFile" -> {
