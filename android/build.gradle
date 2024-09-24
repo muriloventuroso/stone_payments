@@ -58,7 +58,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.beust:klaxon:5.5'
     implementation "br.com.stone:stone-sdk:$stone_sdk_version"
     implementation "br.com.stone:stone-sdk-posandroid:$stone_sdk_version"
     implementation "br.com.stone:stone-sdk-posandroid-sunmi:$stone_sdk_version"

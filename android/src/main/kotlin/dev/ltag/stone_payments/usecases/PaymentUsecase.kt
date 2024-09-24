@@ -12,7 +12,6 @@ import br.com.stone.posandroid.providers.PosTransactionProvider
 import stone.providers.CancellationProvider;
 import dev.ltag.stone_payments.Result
 import dev.ltag.stone_payments.StonePaymentsPlugin
-import dev.ltag.stone_payments.Transaction
 import io.flutter.plugin.common.MethodChannel
 import stone.application.enums.*
 import stone.application.interfaces.StoneActionCallback
