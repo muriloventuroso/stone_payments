@@ -287,7 +287,7 @@ class PaymentUsecase(
         jsonString = jsonString.plus("\"balance\": \"${message.balance}\",");
         jsonString = jsonString.plus("\"isCapture\": \"${message.isCapture.toString()}\",");
         jsonString = jsonString.plus("\"subMerchantCategoryCode\": \"${message.subMerchantCategoryCode}\",");
-        jsonString = jsonString.plus("\"subMerchantAddress\": \"${message.subMerchantAddress}\",");
+        jsonString = jsonString.plus("\"subMerchantAddress\": \"${message.subMerchantAddress}\"");
         jsonString = jsonString.plus("}");
         
         return jsonString;
