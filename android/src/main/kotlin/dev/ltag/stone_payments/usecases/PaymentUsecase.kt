@@ -264,7 +264,7 @@ class PaymentUsecase(
     }
 
     private fun transactionToJson(message: TransactionObject) : String {
-        val jsonString = "{";
+        var jsonString = "{";
         jsonString.plus("acquirerTransactionKey: \"${message.acquirerTransactionKey}\",");
         jsonString.plus("initiatorTransactionKey: \"${message.initiatorTransactionKey}\",");
         jsonString.plus("amount: \"${message.amount}\",");
