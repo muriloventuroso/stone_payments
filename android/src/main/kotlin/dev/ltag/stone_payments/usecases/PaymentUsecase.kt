@@ -265,31 +265,32 @@ class PaymentUsecase(
     }
 
     private fun transactionToJson(message: TransactionObject) : String {
-        var tr = Transaction(
-            message.acquirerTransactionKey,
-            message.initiatorTransactionKey,
-            message.amount,
-            message.typeOfTransaction.name,
-            message.instalmentTransaction.name,
-            message.instalmentType.name,
-            message.cardHolderNumber,
-            message.cardBrandName,
-            message.cardHolderName,
-            message.authorizationCode,
-            message.transactionStatus.name,
-            message.date,
-            message.time,
-            message.entryMode.toString(),
-            message.aid,
-            message.arcq,
-            message.shortName,
-            message.userModel.toString(),
-            message.pinpadUsed,
-            message.balance,
-            message.isCapture,
-            message.subMerchantCategoryCode,
-            message.subMerchantAddress,
-        )
-        return tr.toJson()
+        val jsonString = "{";
+        jsonString.plus("acquirerTransactionKey: \"${message.acquirerTransactionKey}\",");
+        jsonString.plus("initiatorTransactionKey: \"${message.initiatorTransactionKey}\",");
+        jsonString.plus("amount: \"${message.amount}\",");
+        jsonString.plus("typeOfTransaction: \"${message.typeOfTransaction.name}\",");
+        jsonString.plus("instalmentTransaction: \"${message.instalmentTransaction.name}\",");
+        jsonString.plus("instalmentType: \"${message.instalmentType.name}\",");
+        jsonString.plus("cardHolderNumber: \"${message.cardHolderNumber}\",");
+        jsonString.plus("cardBrandName: \"${message.cardBrandName}\",");
+        jsonString.plus("cardHolderName: \"${message.cardHolderName}\",");
+        jsonString.plus("authorizationCode: \"${message.authorizationCode}\",");
+        jsonString.plus("transactionStatus: \"${message.transactionStatus.name}\",");
+        jsonString.plus("date: \"${message.date}\",");
+        jsonString.plus("time: \"${message.time}\",");
+        jsonString.plus("entryMode: \"${message.entryMode.toString()}\",");
+        jsonString.plus("aid: \"${message.aid}\",");
+        jsonString.plus("arcq: \"${message.arcq}\",");
+        jsonString.plus("shortName: \"${message.shortName}\",");
+        jsonString.plus("userModel: \"${message.userModel.toString()}\",");
+        jsonString.plus("pinpadUsed: \"${message.pinpadUsed}\",");
+        jsonString.plus("balance: \"${message.balance}\",");
+        jsonString.plus("isCapture: \"${message.isCapture.toString()}\",");
+        jsonString.plus("subMerchantCategoryCode: \"${message.subMerchantCategoryCode}\",");
+        jsonString.plus("subMerchantAddress: \"${message.subMerchantAddress}\",");
+        jsonString.plus("}");
+        
+        return jsonString;
     }
 }
