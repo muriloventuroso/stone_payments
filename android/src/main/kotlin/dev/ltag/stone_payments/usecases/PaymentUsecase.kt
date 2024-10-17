@@ -268,21 +268,33 @@ class PaymentUsecase(
         jsonString = jsonString.plus("\"acquirerTransactionKey\": \"${message.acquirerTransactionKey}\",");
         jsonString = jsonString.plus("\"initiatorTransactionKey\": \"${message.initiatorTransactionKey}\",");
         jsonString = jsonString.plus("\"amount\": \"${message.amount}\",");
-        jsonString = jsonString.plus("\"typeOfTransaction\": \"${message.typeOfTransaction.name}\",");
-        jsonString = jsonString.plus("\"instalmentTransaction\": \"${message.instalmentTransaction.name}\",");
-        jsonString = jsonString.plus("\"instalmentType\": \"${message.instalmentType.name}\",");
+        if(message.typeOfTransaction != null){
+            jsonString = jsonString.plus("\"typeOfTransaction\": \"${message.typeOfTransaction.name}\",");
+        }
+        if(message.instalmentTransaction != null){
+            jsonString = jsonString.plus("\"instalmentTransaction\": \"${message.instalmentTransaction.name}\",");
+        }
+        if(message.installmentType != null){
+            jsonString = jsonString.plus("\"installmentType\": \"${message.installmentType.name}\",");
+        }
         jsonString = jsonString.plus("\"cardHolderNumber\": \"${message.cardHolderNumber}\",");
         jsonString = jsonString.plus("\"cardBrandName\": \"${message.cardBrandName}\",");
         jsonString = jsonString.plus("\"cardHolderName\": \"${message.cardHolderName}\",");
         jsonString = jsonString.plus("\"authorizationCode\": \"${message.authorizationCode}\",");
-        jsonString = jsonString.plus("\"transactionStatus\": \"${message.transactionStatus.name}\",");
+        if(message.transactionStatus != null){
+            jsonString = jsonString.plus("\"transactionStatus\": \"${message.transactionStatus.name}\",");
+        }
         jsonString = jsonString.plus("\"date\": \"${message.date}\",");
         jsonString = jsonString.plus("\"time\": \"${message.time}\",");
-        jsonString = jsonString.plus("\"entryMode\": \"${message.entryMode.toString()}\",");
+        if(message.entryMode != null){
+            jsonString = jsonString.plus("\"entryMode\": \"${message.entryMode.toString()}\",");
+        }
         jsonString = jsonString.plus("\"aid\": \"${message.aid}\",");
         jsonString = jsonString.plus("\"arcq\": \"${message.arcq}\",");
         jsonString = jsonString.plus("\"shortName\": \"${message.shortName}\",");
-        jsonString = jsonString.plus("\"userModel\": \"${message.userModel.toString()}\",");
+        if(message.userModel != null){
+            jsonString = jsonString.plus("\"userModel\": \"${message.userModel.toString()}\",");
+        }
         jsonString = jsonString.plus("\"pinpadUsed\": \"${message.pinpadUsed}\",");
         jsonString = jsonString.plus("\"balance\": \"${message.balance}\",");
         jsonString = jsonString.plus("\"isCapture\": \"${message.isCapture.toString()}\",");
