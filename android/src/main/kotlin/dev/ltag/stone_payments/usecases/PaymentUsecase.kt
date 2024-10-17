@@ -57,6 +57,7 @@ class PaymentUsecase(
             provider.setConnectionCallback(object : StoneActionCallback {
 
                 override fun onSuccess() {
+                    Log.d("SUCCESS", transactionObject.toString())
                     sendResult(transactionObject)
                     when (val status = provider.transactionStatus) {
                         TransactionStatusEnum.APPROVED -> {
