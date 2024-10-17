@@ -274,8 +274,8 @@ class PaymentUsecase(
         if(message.instalmentTransaction != null){
             jsonString = jsonString.plus("\"instalmentTransaction\": \"${message.instalmentTransaction.name}\",");
         }
-        if(message.installmentType != null){
-            jsonString = jsonString.plus("\"installmentType\": \"${message.installmentType.name}\",");
+        if(message.instalmentType != null){
+            jsonString = jsonString.plus("\"instalmentType\": \"${message.instalmentType.name}\",");
         }
         jsonString = jsonString.plus("\"cardHolderNumber\": \"${message.cardHolderNumber}\",");
         jsonString = jsonString.plus("\"cardBrandName\": \"${message.cardBrandName}\",");
