@@ -58,10 +58,8 @@ class PaymentUsecase(
 
                 override fun onSuccess() {
                     sendResult(transactionObject)
-                    Log.d("SUCCESS", "aqui")
                     when (val status = provider.transactionStatus) {
                         TransactionStatusEnum.APPROVED -> {
-                            Log.d("SUCCESS", "approved")
                             if (print == true) {
                                 val posPrintReceiptProvider =
                                     PosPrintReceiptProvider(
@@ -79,7 +77,6 @@ class PaymentUsecase(
                                     }
 
                                     override fun onError() {
-                                        val e = "Erro ao imprimir"
                                         Log.d("ERRORPRINT", transactionObject.toString())
 
                                     }
@@ -146,7 +143,7 @@ class PaymentUsecase(
                 callback(Result.Success(false))
                 return
             }
-            val ret = stonePayments.providerPosTransaction?.abortPayment()
+            stonePayments.providerPosTransaction?.abortPayment()
             callback(Result.Success(true))
 
         } catch (e: Exception) {
@@ -171,7 +168,7 @@ class PaymentUsecase(
 
             val provider = CancellationProvider(
                 context,
-                selectedTransaction!!,
+                selectedTransaction,
             )
 
             provider.setConnectionCallback(object : StoneCallbackInterface {
@@ -183,7 +180,7 @@ class PaymentUsecase(
                     if(print == true) {
                         val posPrintReceiptProvider =
                             PosPrintReceiptProvider(
-                                context, selectedTransaction!!,
+                                context, selectedTransaction,
                                 ReceiptType.MERCHANT,
                             );
 
@@ -192,13 +189,12 @@ class PaymentUsecase(
 
                             override fun onSuccess() {
 
-                                Log.d("SUCCESS", selectedTransaction!!.toString())
+                                Log.d("SUCCESS", selectedTransaction.toString())
                                 
                             }
 
                             override fun onError() {
-                                val e = "Erro ao imprimir"
-                                Log.d("ERRORPRINT", selectedTransaction!!.toString())
+                                Log.d("ERRORPRINT", selectedTransaction.toString())
 
                             }
                         }
@@ -266,46 +262,43 @@ class PaymentUsecase(
     }
 
     private fun transactionToJson(message: TransactionObject) : String {
-        Log.d("SUCCESS", "transactionToJson");
-        return "{}";
-        // var jsonString = "{";
-        // jsonString = jsonString.plus("\"acquirerTransactionKey\": \"${message.acquirerTransactionKey}\",");
-        // jsonString = jsonString.plus("\"initiatorTransactionKey\": \"${message.initiatorTransactionKey}\",");
-        // jsonString = jsonString.plus("\"amount\": \"${message.amount}\",");
-        // if(message.typeOfTransaction != null){
-        //     jsonString = jsonString.plus("\"typeOfTransaction\": \"${message.typeOfTransaction.name}\",");
-        // }
-        // if(message.instalmentTransaction != null){
-        //     jsonString = jsonString.plus("\"instalmentTransaction\": \"${message.instalmentTransaction.name}\",");
-        // }
-        // if(message.instalmentType != null){
-        //     jsonString = jsonString.plus("\"instalmentType\": \"${message.instalmentType.name}\",");
-        // }
-        // jsonString = jsonString.plus("\"cardHolderNumber\": \"${message.cardHolderNumber}\",");
-        // jsonString = jsonString.plus("\"cardBrandName\": \"${message.cardBrandName}\",");
-        // jsonString = jsonString.plus("\"cardHolderName\": \"${message.cardHolderName}\",");
-        // jsonString = jsonString.plus("\"authorizationCode\": \"${message.authorizationCode}\",");
-        // if(message.transactionStatus != null){
-        //     jsonString = jsonString.plus("\"transactionStatus\": \"${message.transactionStatus.name}\",");
-        // }
-        // jsonString = jsonString.plus("\"date\": \"${message.date}\",");
-        // jsonString = jsonString.plus("\"time\": \"${message.time}\",");
-        // if(message.entryMode != null){
-        //     jsonString = jsonString.plus("\"entryMode\": \"${message.entryMode.toString()}\",");
-        // }
-        // jsonString = jsonString.plus("\"aid\": \"${message.aid}\",");
-        // jsonString = jsonString.plus("\"arcq\": \"${message.arcq}\",");
-        // jsonString = jsonString.plus("\"shortName\": \"${message.shortName}\",");
-        // if(message.userModel != null){
-        //     jsonString = jsonString.plus("\"userModel\": \"${message.userModel.toString()}\",");
-        // }
-        // jsonString = jsonString.plus("\"pinpadUsed\": \"${message.pinpadUsed}\",");
-        // jsonString = jsonString.plus("\"balance\": \"${message.balance}\",");
-        // jsonString = jsonString.plus("\"isCapture\": \"${message.isCapture.toString()}\",");
-        // jsonString = jsonString.plus("\"subMerchantCategoryCode\": \"${message.subMerchantCategoryCode}\",");
-        // jsonString = jsonString.plus("\"subMerchantAddress\": \"${message.subMerchantAddress}\"");
-        // jsonString = jsonString.plus("}");
-        // Log.d("SUCCESS", jsonString)
-        // return jsonString;
+        var jsonString = "{";
+        jsonString = jsonString.plus("\"acquirerTransactionKey\": \"${message.acquirerTransactionKey}\",");
+        jsonString = jsonString.plus("\"initiatorTransactionKey\": \"${message.initiatorTransactionKey}\",");
+        jsonString = jsonString.plus("\"amount\": \"${message.amount}\",");
+        if(message.typeOfTransaction != null){
+            jsonString = jsonString.plus("\"typeOfTransaction\": \"${message.typeOfTransaction.name}\",");
+        }
+        if(message.instalmentTransaction != null){
+            jsonString = jsonString.plus("\"instalmentTransaction\": \"${message.instalmentTransaction.name}\",");
+        }
+        if(message.instalmentType != null){
+            jsonString = jsonString.plus("\"instalmentType\": \"${message.instalmentType.name}\",");
+        }
+        jsonString = jsonString.plus("\"cardHolderNumber\": \"${message.cardHolderNumber}\",");
+        jsonString = jsonString.plus("\"cardBrandName\": \"${message.cardBrandName}\",");
+        jsonString = jsonString.plus("\"cardHolderName\": \"${message.cardHolderName}\",");
+        jsonString = jsonString.plus("\"authorizationCode\": \"${message.authorizationCode}\",");
+        if(message.transactionStatus != null){
+            jsonString = jsonString.plus("\"transactionStatus\": \"${message.transactionStatus.name}\",");
+        }
+        jsonString = jsonString.plus("\"date\": \"${message.date}\",");
+        jsonString = jsonString.plus("\"time\": \"${message.time}\",");
+        if(message.entryMode != null){
+            jsonString = jsonString.plus("\"entryMode\": \"${message.entryMode.toString()}\",");
+        }
+        jsonString = jsonString.plus("\"aid\": \"${message.aid}\",");
+        jsonString = jsonString.plus("\"arcq\": \"${message.arcq}\",");
+        jsonString = jsonString.plus("\"shortName\": \"${message.shortName}\",");
+        if(message.userModel != null){
+            jsonString = jsonString.plus("\"userModel\": \"${message.userModel.toString()}\",");
+        }
+        jsonString = jsonString.plus("\"pinpadUsed\": \"${message.pinpadUsed}\",");
+        jsonString = jsonString.plus("\"balance\": \"${message.balance}\",");
+        jsonString = jsonString.plus("\"isCapture\": \"${message.isCapture.toString()}\",");
+        jsonString = jsonString.plus("\"subMerchantCategoryCode\": \"${message.subMerchantCategoryCode}\",");
+        jsonString = jsonString.plus("\"subMerchantAddress\": \"${message.subMerchantAddress}\"");
+        jsonString = jsonString.plus("}");
+        return jsonString;
     }
 }
