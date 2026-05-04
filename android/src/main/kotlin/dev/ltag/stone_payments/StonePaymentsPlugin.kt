@@ -1,6 +1,5 @@
 package dev.ltag.stone_payments
 
-import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
 import dev.ltag.stone_payments.usecases.ActivateUsecase
@@ -16,9 +15,9 @@ import stone.database.transaction.TransactionObject
 import io.flutter.plugin.common.MethodChannel.Result as Res
 
 /** StonePaymentsPlugin */
-class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler, Activity() {
+class StonePaymentsPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
-    var context: Context = this;
+    lateinit var context: Context
     var transactionObject = TransactionObject()
     var paymentUsecase: PaymentUsecase? = null
     var printerUsecase: PrinterUsecase? = null
